@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Startup And Shutdown Activity</string>
+    <string name="title_activity_head">HeadActivity</string>
+    <string name="title_activity_my">MyActivity</string>
+</resources>

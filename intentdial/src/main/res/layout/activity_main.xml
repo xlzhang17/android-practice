@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上海科技"/>
+    <TextView android:id="@+id/web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="http://232.com"
+        android:layout_below="@+id/name"/>
+    <TextView android:id="@+id/mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="280777561@qq.com"
+        android:layout_below="@+id/web"/>
+    <TextView android:id="@+id/dial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1234-234"
+        android:layout_below="@+id/mail"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/dial">
+        <Button android:id="@+id/dial_button"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:layout_below="@+id/dial"
+            android:text="call"/>
+        <Button android:id="@+id/message_button"
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:text="send"
+            android:layout_below="@id/dial"
+            android:layout_toRightOf="@id/dial_button"/>
+    </LinearLayout>
+
+</RelativeLayout>
