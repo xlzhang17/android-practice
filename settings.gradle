@@ -1,1 +1,1 @@
-include ':app', ':startupandshutdownactivity', ':intentdial', ':activitytest'
+include ':app', ':startupandshutdownactivity', ':intentdial', ':activitytest', ':uiwidgettest', ':uibestpractice', ':contactstest', ':bestservivepractice', ':geoquiz'
