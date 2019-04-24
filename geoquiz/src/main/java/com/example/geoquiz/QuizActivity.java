@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private static final String KEY_INDEX = "index";
+
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
@@ -26,8 +28,12 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_quiz);
         mQuestionTextView = findViewById(R.id.question_text_view);
+        if(savedInstanceState != null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
         updateQuestion();
 
         mTrueButton = findViewById(R.id.true_button);
@@ -63,6 +69,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void updateQuestion(){
+        Log.d("QuizActivity", "updateQuestion: ", new Exception());
         mQuestionTextView.setText(mQUestionRank[mCurrentIndex].getQuestion());
     }
     private void checkAnswer(boolean userPressedTrue){
@@ -74,5 +81,12 @@ public class QuizActivity extends AppCompatActivity {
         else messageResId = R.string.incorrect_toast;
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_INDEX, mCurrentIndex);
     }
 }
