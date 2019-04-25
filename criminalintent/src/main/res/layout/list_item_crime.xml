@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
     <TextView android:id="@+id/crime_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Crime Title"/>
+        android:text="Crime Title"/>
 
     <TextView android:id="@+id/crime_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Crime Date"/>
+        android:text="Crime Date"/>
 </LinearLayout>
