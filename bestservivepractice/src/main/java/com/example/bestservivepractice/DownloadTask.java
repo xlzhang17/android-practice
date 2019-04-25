@@ -26,6 +26,6 @@ public class DownloadTask extends AsyncTask<String, Integer, Integer> {
     @Override
     protected Integer doInBackground(String... strings) {
         InputStream is = null;
-
+        return 0;
     }
 }

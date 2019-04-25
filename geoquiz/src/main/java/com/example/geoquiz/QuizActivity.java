@@ -1,5 +1,7 @@
 package com.example.geoquiz;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +13,16 @@ import android.widget.Toast;
 public class QuizActivity extends AppCompatActivity {
 
     private static final String KEY_INDEX = "index";
+    private static final int REQUEST_CODE_CHEAT = 0;
 
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mCheatButton;
     private Button mNextButton;
     private Button mPrevButton;
     private TextView mQuestionTextView;
+
+    private boolean mIsAnswerShown;
 
     private TrueFalse[] mQUestionRank = new TrueFalse[]{
             new TrueFalse(R.string.question_africa, true),
@@ -50,6 +56,15 @@ public class QuizActivity extends AppCompatActivity {
                 checkAnswer(false);
             }
         });
+        mCheatButton = findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean answer_is_true = mQUestionRank[mCurrentIndex].isTrueQuestion();
+                Intent intent = CheatActivity.newIntent(QuizActivity.this, answer_is_true);
+                startActivityForResult(intent, REQUEST_CODE_CHEAT);
+            }
+        });
         mNextButton = findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,9 +91,14 @@ public class QuizActivity extends AppCompatActivity {
         boolean isAnswerTrue = mQUestionRank[mCurrentIndex].isTrueQuestion();
 
         int messageResId = 0;
-        if(isAnswerTrue == userPressedTrue)
-            messageResId = R.string.correct_toast;
-        else messageResId = R.string.incorrect_toast;
+
+        if(mIsAnswerShown) {
+            messageResId = R.string.judgement_toast;
+        } else {
+            if (isAnswerTrue == userPressedTrue)
+                messageResId = R.string.correct_toast;
+            else messageResId = R.string.incorrect_toast;
+        }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
@@ -88,5 +108,18 @@ public class QuizActivity extends AppCompatActivity {
 
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_INDEX, mCurrentIndex);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK){
+            return;
+        }
+        if(requestCode == REQUEST_CODE_CHEAT){
+            if(data == null)
+                return;
+            mIsAnswerShown = CheatActivity.isAnswerShown(data);
+        }
     }
 }
