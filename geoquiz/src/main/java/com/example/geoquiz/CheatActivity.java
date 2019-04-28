@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
 
 
-    private static final String EXTRA_ANSWER_ID_TRUE = "com.example.geoquiz.answer_is_true";
+    private static final String EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOWN = "com.example.geoquiz.answer_shown";
 
     private boolean mAnswerIsTrue;
@@ -21,7 +21,7 @@ public class CheatActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context packageContext, boolean answer_is_true){
         Intent intent = new Intent(packageContext, CheatActivity.class);
-        intent.putExtra(EXTRA_ANSWER_ID_TRUE, answer_is_true);
+        intent.putExtra(EXTRA_ANSWER_IS_TRUE, answer_is_true);
         return intent;
     }
     @Override
@@ -29,7 +29,7 @@ public class CheatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-        mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_ID_TRUE, true);
+        mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, true);
 
         mAnswerTextView = findViewById(R.id.answer_text_view);
         mShowAnswerButton = findViewById(R.id.show_answer_button);

@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity {
 
-    private static final String EXTRA_CRIME_ID = "crime_id";
+    private static final String EXTRA_CRIME_ID = "com.example.criminalintent.crime_id";
 
     private ViewPager mViewPager;
     private List<Crime> mCrimes;
