@@ -2,13 +2,16 @@ package com.example.criminalintent;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.criminalintent.database.CrimeBaseHelper;
+import com.example.criminalintent.database.CrimeCursorWrapper;
 import com.example.criminalintent.database.CrimeDbSchema;
 import com.example.criminalintent.database.CrimeDbSchema.CrimeTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,12 +35,31 @@ public class CrimeLab {
     }
 
     public List<Crime> getCrimes(){
-        return new ArrayList<>();
+        CrimeCursorWrapper cursorWrapper = queryCrime(null, null);
+        List<Crime> crimes = new ArrayList<>();
+        try {
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()){
+                crimes.add(cursorWrapper.getCrime());
+                cursorWrapper.moveToNext();
+            }
+        }finally {
+            cursorWrapper.close();
+        }
+        return crimes;
     }
 
     public Crime getCrime(UUID uuid){
-
-        return null;
+        CrimeCursorWrapper cursor = queryCrime(CrimeTable.Cols.UUID + "=?", new String[]{uuid.toString()});
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
+            }
+            cursor.moveToFirst();
+            return cursor.getCrime();
+        } finally {
+            cursor.close();
+        }
     }
 
     public void addCrime(Crime c){
@@ -52,6 +74,17 @@ public class CrimeLab {
         mDatabase.update(CrimeTable.NAME, values,
                 CrimeTable.Cols.UUID + "= ?",
                 new String[]{uuidString});
+    }
+
+    public CrimeCursorWrapper queryCrime(String whereClause, String[] whereArgs){
+        Cursor cursor = mDatabase.query(CrimeTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null);
+        return new CrimeCursorWrapper(cursor);
     }
 
     private static ContentValues getContentValues(Crime crime){
