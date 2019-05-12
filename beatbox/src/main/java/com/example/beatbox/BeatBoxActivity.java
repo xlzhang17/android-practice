@@ -12,11 +12,6 @@ public class BeatBoxActivity extends SingleFragmentActivity {
     }
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_beat_box;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
