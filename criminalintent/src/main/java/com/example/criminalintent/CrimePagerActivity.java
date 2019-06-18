@@ -28,9 +28,9 @@ public class CrimePagerActivity extends AppCompatActivity implements CrimeFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
 
-        mViewPager = findViewById(R.id.crime_view_pager);
-
         mCrimes = CrimeLab.getInstance(this).getCrimes();
+
+        mViewPager = findViewById(R.id.crime_view_pager);
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
