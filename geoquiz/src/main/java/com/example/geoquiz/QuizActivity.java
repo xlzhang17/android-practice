@@ -24,7 +24,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private boolean mIsAnswerShown;
 
-    private TrueFalse[] mQUestionRank = new TrueFalse[]{
+    private TrueFalse[] mQuestionRank = new TrueFalse[]{
             new TrueFalse(R.string.question_africa, true),
             new TrueFalse(R.string.question_mideast, false),
             new TrueFalse(R.string.question_oceans, false)
@@ -40,13 +40,14 @@ public class QuizActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
-        updateQuestion();
 
         mTrueButton = findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAnswer(true);
+                mQuestionRank[mCurrentIndex].setAnswered(true);
+                updateQuestion();
             }
         });
         mFalseButton = findViewById(R.id.false_button);
@@ -54,13 +55,15 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
+                mQuestionRank[mCurrentIndex].setAnswered(true);
+                updateQuestion();
             }
         });
         mCheatButton = findViewById(R.id.cheat_button);
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean answer_is_true = mQUestionRank[mCurrentIndex].isTrueQuestion();
+                boolean answer_is_true = mQuestionRank[mCurrentIndex].isTrueQuestion();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this, answer_is_true);
                 startActivityForResult(intent, REQUEST_CODE_CHEAT);
             }
@@ -69,7 +72,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQUestionRank.length;
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionRank.length;
                 updateQuestion();
             }
         });
@@ -77,18 +80,28 @@ public class QuizActivity extends AppCompatActivity {
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + mQUestionRank.length - 1) % mQUestionRank.length;
+                mCurrentIndex = (mCurrentIndex + mQuestionRank.length - 1) % mQuestionRank.length;
                 updateQuestion();
             }
         });
+
+        updateQuestion();
     }
 
     private void updateQuestion(){
         Log.d("QuizActivity", "updateQuestion: ", new Exception());
-        mQuestionTextView.setText(mQUestionRank[mCurrentIndex].getQuestion());
+        TrueFalse ques = mQuestionRank[mCurrentIndex];
+        mQuestionTextView.setText(ques.getQuestion());
+        if(ques.isAnswered()) {
+            mTrueButton.setEnabled(false);
+            mFalseButton.setEnabled(false);
+        } else {
+            mTrueButton.setEnabled(true);
+            mFalseButton.setEnabled(true);
+        }
     }
     private void checkAnswer(boolean userPressedTrue){
-        boolean isAnswerTrue = mQUestionRank[mCurrentIndex].isTrueQuestion();
+        boolean isAnswerTrue = mQuestionRank[mCurrentIndex].isTrueQuestion();
 
         int messageResId = 0;
 
